@@ -5,7 +5,7 @@ const ForbiddenPage: React.FC = () => {
   const navigate = useNavigate();
 
   const goHome = () => {
-    navigate("/"); // bosh sahifaga yo'naltirish
+    navigate("/");
   };
 
   return (

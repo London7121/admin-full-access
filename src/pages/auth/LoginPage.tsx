@@ -2,8 +2,9 @@ import { Button, Card, Form, Input, Typography, theme } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { mockUsers } from "@/services/mockUsers";
-import { useNavigate, useLocation } from "react-router-dom";
-import { PATHS } from "@/app/router/paths";
+import { useNavigate } from "react-router-dom";
+// import { PATHS } from "@/app/router/paths";
+import { getDefaultRouteByPermissions } from "@/utils/getDefaultRoute";
 
 const { Title, Text } = Typography;
 
@@ -11,17 +12,22 @@ const LoginPage = () => {
   const { token } = theme.useToken();
   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
-  const from = location.state?.from?.pathname || PATHS.DASHBOARD;
+  // const from = location.state?.from?.pathname || PATHS.DASHBOARD;
+
+  // const from = location.state?.from?.pathname;
 
   const onFinish = (values: { username: string; password: string }) => {
     const user = mockUsers.find((u) => u.username === values.username);
 
-    if (user) {
-      login(user, "mock-token");
-      navigate(from, { replace: true });
-    }
+    if (!user) return;
+
+    login(user, "mock-token");
+
+    // to‘g‘ridan-to‘g‘ri permission asosida route’ga navigate
+    const defaultPath = getDefaultRouteByPermissions(user.permissions);
+    navigate(defaultPath, { replace: true });
   };
 
   return (

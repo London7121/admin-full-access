@@ -1,4 +1,4 @@
 
-export default function DashboardPage() {
+export const DashboardPage = () => {
   return <div>DashboardPage</div>;
 }
